@@ -1,0 +1,48 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Multiplayer Snake Game</title>
+  <link rel="stylesheet" href="styles.css">
+  <script type="importmap">
+    {
+      "imports": {
+        "websim-socket": "https://esm.sh/websim-socket"
+      }
+    }
+  </script>
+</head>
+<body>
+  <div id="game-mode-selector">
+    <span id="multiplayer-label">MULTIPLAYER</span>
+    <label class="toggle-switch">
+      <input type="checkbox" id="multiplayer-toggle">
+      <span class="slider"></span>
+    </label>
+  </div>
+  <div id="game-container">
+    <div id="stats">
+      <span id="speed">Speed: 1.0</span>
+      <span id="score">Score: 0</span>
+      <span id="player-id"></span>
+    </div>
+    <canvas id="game-board"></canvas>
+    <div id="game-over">Game Over!</div>
+  </div>
+  <div id="speed-instructions">Press ⬆️⬇️⬅️➡️ twice in same direction to speed up. Press opposite direction to slow down.</div>
+  <div id="leaderboard">
+    <h3>Leaderboard</h3>
+    <table id="leaderboard-table">
+      <thead>
+        <tr>
+          <th>Player</th>
+          <th>Score</th>
+        </tr>
+      </thead>
+      <tbody id="leaderboard-body">
+      </tbody>
+    </table>
+  </div>
+  <script src="main.js" type="module"></script>
+</body>
+</html>
