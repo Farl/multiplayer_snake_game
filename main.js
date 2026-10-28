@@ -77,7 +77,20 @@ class SnakeGame {
       this.room.onmessage = (event) => {
         const data = event.data;
         
-        if (!data || !data.type || !data.player) return;
+        if (!data?.type) return;
+
+        // Peer lifecycle events contain clientId, but no player payload.
+        // Send our state to late joiners and remove peers when they leave.
+        if (data.type === 'connected') {
+          setTimeout(() => this.broadcastPlayerState('player-join'), 300);
+          return;
+        }
+        if (data.type === 'disconnected') {
+          delete this.players[data.clientId];
+          this.updateLeaderboard();
+          return;
+        }
+        if (!data.player) return;
         
         // Always update player data when received
         if (data.player.id && data.player.id !== this.clientId) {
@@ -104,16 +117,7 @@ class SnakeGame {
           case 'player-collision':
             this.updateLeaderboard();
             break;
-          case 'connected':
-            // Send current state to new player
-            setTimeout(() => this.broadcastPlayerState('player-join'), 300);
-            break;
-          case 'disconnected':
-            if (this.players[data.clientId]) {
-              delete this.players[data.clientId];
-              this.updateLeaderboard();
-            }
-            break;
+
         }
       };
 
